@@ -5,7 +5,7 @@ VERSION = '0.1dev'
 
 requires = [
     'substanced',
-    'slugger',
+    'slug',
 ]
 tests_require = requires + []
 
