@@ -11,6 +11,7 @@ from substanced.sdi import mgmt_view
 from substanced.sdi.views.folder import AddFolderSchema
 from substanced.sdi.views.folder import FolderContents
 from substanced.sdi.views.folder import folder_contents_views
+from substanced.util import get_icon_name
 
 from .resources import Blog
 
@@ -63,8 +64,16 @@ class AddBlogEntry(FormView):
 class BlogContents(FolderContents):
 
     def get_columns(self, entry):
-        title = getattr(entry, 'title', None)
+        request = self.request
+        if entry:
+            value = {'name': getattr(entry, 'title', None),
+                     'url': request.sdiapi.mgmt_url(entry),
+                     'icon': get_icon_name(entry, request) or ''}
+        else:
+            value = None
         return [
             {'name': 'Title',
-             'value': title}
+             'value': value,
+             'formatter': 'icon_label_url',
+            }
         ]
