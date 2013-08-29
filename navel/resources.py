@@ -9,7 +9,7 @@ from substanced.content import content
 from substanced.folder import Folder
 from substanced.property import PropertySheet
 from substanced.schema import NameSchemaNode, Schema
-from substanced.util import renamer
+from substanced.util import find_catalog, renamer
 
 
 class BlogEntrySchema(Schema):
@@ -48,3 +48,10 @@ class BlogEntry(Persistent):
          add_view="add_blog")
 class Blog(Folder):
     __sdi_addable__ = ["Blog Entry"]
+
+
+def pub_date_sorter(resource, resultset, limit=None, reverse=False):
+    catalog = find_catalog(resource, 'navel')
+    index = catalog['pub_date']
+    resultset = resultset.sort(index, limit=limit, reverse=reverse)
+    return resultset

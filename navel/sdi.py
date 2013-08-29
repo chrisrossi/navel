@@ -14,7 +14,7 @@ from substanced.sdi.views.folder import FolderContents
 from substanced.sdi.views.folder import folder_contents_views
 from substanced.util import find_catalog, get_icon_name
 
-from .resources import Blog
+from .resources import Blog, pub_date_sorter
 
 
 @mgmt_view(context=IFolder,
@@ -84,11 +84,5 @@ class BlogContents(FolderContents):
              'value': pub_date,
              #'formatter': 'date',
              'initial_sort_reverse': True,
-             'sorter': self.pub_date_sorter},
+             'sorter': pub_date_sorter},
         ]
-
-    def pub_date_sorter(self, resource, resultset, limit=None, reverse=False):
-        catalog = find_catalog(resource, 'navel')
-        index = catalog['pub_date']
-        resultset = resultset.sort(index, limit=limit, reverse=reverse)
-        return resultset

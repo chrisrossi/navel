@@ -1,0 +1,11 @@
+<!doctype html>
+
+<metal:block use-macro="main_template">
+  <metal:block fill-slot="content">
+    <tal:block repeat="entry blog_entries">
+      <h1>${entry.title}</h1>
+      <tal:block replace="structure entry.body"/>
+      <hr tal:condition="not repeat.entry.end"/>
+    </tal:block>
+  </metal:block>
+</metal:block>
