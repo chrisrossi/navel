@@ -6,6 +6,7 @@ VERSION = '0.1dev'
 requires = [
     'substanced',
     'slug',
+    'tzlocal',
 ]
 tests_require = requires + []
 

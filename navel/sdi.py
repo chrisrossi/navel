@@ -1,6 +1,7 @@
 import colander
 import deform
 from slug import slug
+from tzlocal import get_localzone
 
 from pyramid.httpexceptions import HTTPFound
 
@@ -11,7 +12,7 @@ from substanced.sdi import mgmt_view
 from substanced.sdi.views.folder import AddFolderSchema
 from substanced.sdi.views.folder import FolderContents
 from substanced.sdi.views.folder import folder_contents_views
-from substanced.util import get_icon_name
+from substanced.util import find_catalog, get_icon_name
 
 from .resources import Blog
 
@@ -66,14 +67,28 @@ class BlogContents(FolderContents):
     def get_columns(self, entry):
         request = self.request
         if entry:
-            value = {'name': getattr(entry, 'title', None),
+            title = {'name': getattr(entry, 'title', None),
                      'url': request.sdiapi.mgmt_url(entry),
                      'icon': get_icon_name(entry, request) or ''}
+            tz = get_localzone()
+            pub_date = entry.pub_date.astimezone(tz).isoformat()
+            pub_date = ' '.join(pub_date.rsplit('-', 1)[0].split('T'))
         else:
-            value = None
+            title = pub_date = None
         return [
             {'name': 'Title',
-             'value': value,
+             'value': title,
              'formatter': 'icon_label_url',
-            }
+            },
+            {'name': 'Publication Date',
+             'value': pub_date,
+             #'formatter': 'date',
+             'initial_sort_reverse': True,
+             'sorter': self.pub_date_sorter},
         ]
+
+    def pub_date_sorter(self, resource, resultset, limit=None, reverse=False):
+        catalog = find_catalog(resource, 'navel')
+        index = catalog['pub_date']
+        resultset = resultset.sort(index, limit=limit, reverse=reverse)
+        return resultset
