@@ -2,10 +2,20 @@
 
 <metal:block use-macro="main_template">
   <metal:block fill-slot="content">
-    <tal:block repeat="entry blog_entries">
-      <h1>${entry.title}</h1>
+    ${panel('toc')}
+    <tal:block repeat="entry entries">
+      <header>
+        <h1><a href="${entry.url}">${entry.title}</a></h1>
+        <h6 class="date">${entry.pub_date}</h6>
+      </header>
       <tal:block replace="structure entry.body"/>
       <hr tal:condition="not repeat.entry.end"/>
+    </tal:block>
+    <tal:block condition="pager">
+      <ul class="pager" tal:define="(prev, next) pager">
+        <li class="previous${prev.disabled}"><a href="${prev.url}">&larr; Older</a></li>
+        <li class="next${next.disabled}"><a href="${next.url}">Newer &rarr;</a></li>
+      </ul>
     </tal:block>
   </metal:block>
 </metal:block>

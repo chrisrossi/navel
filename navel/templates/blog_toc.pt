@@ -1,0 +1,11 @@
+<!doctype html>
+
+<div class="panel panel-default pull-right">
+  <div class="panel-heading">Blog posts</div>
+  <div class="panel-body">
+    <div class="list-group">
+      <a tal:repeat="link contents" href="${link.url}"
+        class="${link['class']} list-group-item">${link.title}</a>
+    </div>
+  </div>
+</div>

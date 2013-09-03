@@ -1,0 +1,12 @@
+<!doctype html>
+
+<metal:block use-macro="main_template">
+  <metal:block fill-slot="content">
+    ${panel('toc', context=view.blog)}
+    <header>
+      <h1>${title}</h1>
+      <h6 class="date">${pub_date}</h6>
+    </header>
+    <tal:block replace="structure body"/>
+  </metal:block>
+</metal:block>
