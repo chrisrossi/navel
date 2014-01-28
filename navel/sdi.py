@@ -12,7 +12,7 @@ from substanced.sdi import mgmt_view
 from substanced.sdi.views.folder import AddFolderSchema
 from substanced.sdi.views.folder import FolderContents
 from substanced.sdi.views.folder import folder_contents_views
-from substanced.util import find_catalog, get_icon_name
+from substanced.util import get_icon_name
 
 from .resources import Blog, pub_date_sorter
 
