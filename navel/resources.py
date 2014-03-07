@@ -16,8 +16,10 @@ class BlogEntrySchema(Schema):
     title = colander.SchemaNode(colander.String())
     body = colander.SchemaNode(
         colander.String(),
-        widget=deform.widget.RichTextWidget(
-            options={"theme": "advanced"}))
+        widget=deform.widget.RichTextWidget(options={
+            "menubar": False,
+            "plugins": "link image",
+        }))
     pub_date = colander.SchemaNode(colander.DateTime())
     name = NameSchemaNode(editing=True)
 
@@ -27,7 +29,7 @@ class BlogEntryPropertySheet(PropertySheet):
 
 
 @content("Blog Entry",
-         icon="icon-align-left",
+         icon="glyphicon glyphicon-align-left",
          propertysheets=(('Basic', BlogEntryPropertySheet),),
          add_view="add_blog_entry")
 class BlogEntry(Persistent):
@@ -44,7 +46,7 @@ class BlogEntry(Persistent):
 
 
 @content("Blog",
-         icon="icon-font",
+         icon="glyphicon glyphicon-font",
          add_view="add_blog")
 class Blog(Folder):
     __sdi_addable__ = ["Blog Entry"]

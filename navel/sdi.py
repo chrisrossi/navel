@@ -39,8 +39,10 @@ class AddBlogEntrySchema(Schema):
     title = colander.SchemaNode(colander.String())
     body = colander.SchemaNode(
         colander.String(),
-        widget=deform.widget.RichTextWidget(
-            options={"theme": "advanced"}))
+        widget=deform.widget.RichTextWidget(options={
+            "menubar": False,
+            "plugins": "link image",
+        }))
 
 
 @mgmt_view(content_type="Blog",
